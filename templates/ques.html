@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+
+        .quiz-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .score-info {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #777;
+        }
+
+        .option-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        button {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            button {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Question {{ index }} of {{ total_questions }}</h1>
+        <p>Maximum Score: {{ maxscore }}</p>
+        <p>Current Score: {{ request.session.score|default:0 }}</p>
+
+        <!-- Question and Options -->
+        <form method="post">
+            {% csrf_token %}
+            <h3>{{ question.question }}</h3>
+            <div class="option-container">
+                {% for option in question.options %}
+                    <button type="submit" name="ans" value="{{ option }}">{{ option }}</button>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        color: #4caf50;
+      }
+      .profile-container {
+        width: 80%;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .quiz-history-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+      }
+      .quiz-history-table th,
+      .quiz-history-table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+      .quiz-history-table th {
+        background-color: #4caf50;
+        color: white;
+      }
+      .quiz-history-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      .quiz-history-table tr:hover {
+        background-color: #f1f1f1;
+      }
+      .logout-btn {
+        display: block;
+        width: 200px;
+        padding: 12px;
+        margin: 20px auto;
+        background-color: #ff4747;
+        color: white;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .logout-btn:hover {
+        background-color: #e63838;
+      }
+      .message {
+        color: red;
+        text-align: center;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome, {{ user.username }}</h1>
+
+    <div class="profile-container">
+      <h2>Your Quiz History</h2>
+
+      {% if quiz_history %}
+      <table class="quiz-history-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Total Marks</th>
+            <th>Score</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for quiz in quiz_history %}
+          <tr>
+            <td>{{ quiz.category }}</td>
+            <td>{{ quiz.total_score }}</td>
+            <td>{{ quiz.score }}</td>
+            <td>{{ quiz.date_taken|date:"d M Y, H:i" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>You have no quiz history yet.</p>
+      {% endif %}
+      <a href="{% url 'home' %}">Home</a>
+      <!-- Logout Button -->
+      <form action="{% url 'logout' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </div>
+  </body>
+</html>
